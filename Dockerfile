@@ -1,4 +1,6 @@
 ﻿FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+# Instalar OpenSSL
+RUN apt-get update && apt-get install -y openssl
 USER $APP_UID
 WORKDIR /app
 EXPOSE 8080
