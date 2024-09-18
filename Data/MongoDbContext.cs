@@ -12,19 +12,17 @@ namespace ToDoList.Data
         {
             var settings = MongoClientSettings.FromUrl(new MongoUrl(databaseSettings.Value.ConnectionString));
 
-            // Configuración de SSL
-          settings.SslSettings = new SslSettings
-{
-    CheckCertificateRevocation = false, 
-    EnabledSslProtocols = System.Security.Authentication.SslProtocols.Tls12 | System.Security.Authentication.SslProtocols.Tls11
-};
+            settings.SslSettings = new SslSettings
+            {
+                CheckCertificateRevocation = false,
+                EnabledSslProtocols = System.Security.Authentication.SslProtocols.Tls12
+            };
 
-            // Establecer tiempos de espera (por si acaso hay timeouts)
-            settings.ConnectTimeout = TimeSpan.FromSeconds(30);  // Tiempo de espera para conexión
-            settings.SocketTimeout = TimeSpan.FromSeconds(30);   // Tiempo de espera para los sockets
+            // Establecer tiempo de espera de conexión y socket
+            settings.ConnectTimeout = TimeSpan.FromSeconds(30);
+            settings.SocketTimeout = TimeSpan.FromSeconds(30);
 
             MongoClient mongoClient = new MongoClient(settings);
-
             _database = mongoClient.GetDatabase(databaseSettings.Value.DatabaseName);
         }
 
